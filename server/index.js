@@ -1,0 +1,22 @@
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import databaseConnect from "../config/databaseConnect.js";
+import authRoutes from "../routes/auth.route.js";
+import messageRoutes from "../routes/message.routes.js";
+import userRoutes from "../routes/user.routes.js";
+dotenv.config();
+const app = express();
+
+//Middlewares
+app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
+app.use(cookieParser());
+
+app.use("/auth", authRoutes);
+app.use("/message", messageRoutes);
+app.use("/users", userRoutes);
+app.listen(process.env.PORT, () => {
+  console.log(`server is running on ${process.env.PORT}`);
+  //database connection
+  databaseConnect();
+});

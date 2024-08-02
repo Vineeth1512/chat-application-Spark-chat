@@ -1,11 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import databaseConnect from "../config/databaseConnect.js";
-import authRoutes from "../routes/auth.route.js";
-import messageRoutes from "../routes/message.routes.js";
-import userRoutes from "../routes/user.routes.js";
-import { app, server } from "../socket/socket.js";
+import databaseConnect from "./config/databaseConnect.js";
+import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import { app, server } from "./socket/socket.js";
 import cors from "cors";
 dotenv.config();
 //const app = express();

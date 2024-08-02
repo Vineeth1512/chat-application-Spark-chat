@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import GenderCheckbox from "./GenderCheckbox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useSignUp from "../../hooks/useSignUp";
 import { Toaster } from "react-hot-toast";
 
@@ -13,6 +13,7 @@ export const SignUp = () => {
     gender: "",
   });
   const { loading, signup } = useSignUp();
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (gender) => {
     setInputs({ ...inputs, gender });
@@ -21,8 +22,12 @@ export const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(inputs);
-
-    await signup(inputs);
+    try {
+      await signup(inputs);
+      navigate("/login");
+    } catch (err) {
+      console.log("Signup failed", err);
+    }
   };
 
   return (

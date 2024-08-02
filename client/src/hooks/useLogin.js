@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
+import API from "../service/api";
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ export const useLogin = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        "http://localhost:8000/auth/login",
+        `${API}/auth/login`,
         {
           method: "POST",
           credentials: "include", // Important for sending cookies

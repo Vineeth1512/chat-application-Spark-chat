@@ -13,7 +13,12 @@ dotenv.config();
 //Middlewares
 app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(
+  cors({
+    origin: "https://chat-application-spark-chat-frontend.vercel.app",
+    credentials: true,
+  })
+);
 
 app.use("/auth", authRoutes);
 app.use("/messages", messageRoutes);

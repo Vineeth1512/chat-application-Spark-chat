@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import Message from "../models/message.model.js";
 import Conversation from "../models/conversation.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
+
 export const sendMessage = async (req, res) => {
   try {
     const { message } = req.body;
@@ -28,6 +30,10 @@ export const sendMessage = async (req, res) => {
     //await newMessage.save();
     await Promise.all([conversation.save(), newMessage.save()]); //this will run parallelly
 
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
     return res.status(201).json(newMessage);
   } catch (err) {
     console.log(`Error in SendMessage Controller ${err.message}`);

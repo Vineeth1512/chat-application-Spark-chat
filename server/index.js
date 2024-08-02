@@ -5,17 +5,21 @@ import databaseConnect from "../config/databaseConnect.js";
 import authRoutes from "../routes/auth.route.js";
 import messageRoutes from "../routes/message.routes.js";
 import userRoutes from "../routes/user.routes.js";
+import { app, server } from "../socket/socket.js";
+import cors from "cors";
 dotenv.config();
-const app = express();
+//const app = express();
 
 //Middlewares
 app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use("/auth", authRoutes);
-app.use("/message", messageRoutes);
+app.use("/messages", messageRoutes);
 app.use("/users", userRoutes);
-app.listen(process.env.PORT, () => {
+
+server.listen(process.env.PORT, () => {
   console.log(`server is running on ${process.env.PORT}`);
   //database connection
   databaseConnect();

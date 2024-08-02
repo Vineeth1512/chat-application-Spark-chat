@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import genetateTokenSetCookie from "../utils/generateToken.js";
+import generateTokenSetCookie from "../utils/generateToken.js";
 export const signup = async (req, res) => {
   try {
     const { fullName, username, password, confirmPassword, gender } = req.body;
@@ -12,7 +12,7 @@ export const signup = async (req, res) => {
     const user = await User.findOne({ username });
     if (user) {
       return res.status(400).json({
-        message: "Username already exists..!",
+        message: " This username already exists..!",
       });
     }
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
       profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
     });
     if (newUser) {
-      genetateTokenSetCookie(newUser._id, res);
+      generateTokenSetCookie(newUser._id, res);
       await newUser.save();
       return res.status(201).json({
         message: "User Registerd Successfully..!",
@@ -50,6 +50,12 @@ export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Username doesn't exists..!",
+      });
+    }
     const isPassword = await bcrypt.compare(password, user.password);
 
     if (!user || !isPassword) {
@@ -57,8 +63,10 @@ export const login = async (req, res) => {
         message: "Invalid username or password",
       });
     }
-    genetateTokenSetCookie(user._id, res);
+
+    generateTokenSetCookie(user._id, res);
     return res.status(201).json({
+      message: "Login successfull..",
       _id: user._id,
       fullName: user.fullName,
       username: user.username,

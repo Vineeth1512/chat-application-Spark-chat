@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const genetateTokenSetCookie = (userId, res) => {
+const generateTokenSetCookie = (userId, res) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET_TOKEN, {
     expiresIn: "1d",
   });
@@ -8,6 +8,7 @@ const genetateTokenSetCookie = (userId, res) => {
     maxAge: 1 * 24 * 60 * 60 * 1000, //MS
     httpOnly: true,
     sameSite: "strict",
+    secure: true,
   });
 };
-export default genetateTokenSetCookie;
+export default generateTokenSetCookie;

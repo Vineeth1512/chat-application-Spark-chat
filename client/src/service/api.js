@@ -1,3 +1,3 @@
-const API = "https://chat-application-spark-chat-backend.vercel.app";
+const API = "http://localhost:8000";
 
 export default API;

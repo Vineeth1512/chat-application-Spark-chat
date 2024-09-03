@@ -1,3 +1,3 @@
-const API = "http://localhost:8000";
+const API = "https://chat-application-spark-chat.onrender.com";
 
 export default API;
